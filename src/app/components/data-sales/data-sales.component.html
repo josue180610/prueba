@@ -18,11 +18,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let sale of sales, index as i ">
-                <td>{{sale.data.nameAgency}}</td>
-                <td>{{sale.data.finalPrice}}</td>
-                <td>{{sale.data.finalPrice*0.025}}</td>
-                <td><button type="submit" (click)="agency(sale.data.nameAgency)">Detalles</button></td>
+            <tr *ngFor="let sale of salesUnique, index as i ">
+                <td>{{sale.nameA}}</td>
+                <td>S/ {{sale.finalPrice}}</td>
+                <td>S/ {{sale.finalPriceAmount}}</td>
+                <td><button type="submit" (click)="agency(sale.nameA)">Detalles</button></td>
             </tr>
             
         </tbody>
