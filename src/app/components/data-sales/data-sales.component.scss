@@ -1,0 +1,44 @@
+.container{
+   
+    margin-left: 2%;
+}
+
+table, th, td{
+   
+    margin-top: 10%;
+    border:1px solid gray;
+    border-collapse: collapse;
+    
+}
+
+td, th {
+    padding: 15px;
+    text-align: center;
+}
+
+.tabla{
+    width: 80%;
+    margin-top: 5%;
+    margin-left: 10%;
+
+}
+.resultados{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top:5%;
+}
+.empresa{
+   
+    width: 650px;
+    height: 160px;
+    background: #c4bdbd;
+    border-radius: 15px;
+}
+.mes{
+    
+    width: 650px;
+    height: 160px;
+    background: #c4bdbd;
+    border-radius: 15px;
+}
