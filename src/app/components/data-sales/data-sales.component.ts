@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { InfopageService } from 'src/app/services/infopage.service';
 import { Router } from '@angular/router';
-import UniqueI from 'src/app/interface/unique';
 
 
 export interface saleInterface{
@@ -18,28 +17,49 @@ export interface saleInterface{
   styleUrls: ['./data-sales.component.scss']
 })
 export class DataSalesComponent implements OnInit {
-  sales: any = [];
+  sales: Array<any> = [];
   sale = null;
   arrayUnique = [];
   nameAgency: string = '';
-
+  salesUnique :any = [];
   constructor(private infoPageService: InfopageService,
-              private router: Router ) {}
+              private router: Router,
+              private ref:ChangeDetectorRef ) {}
 
 
 
   ngOnInit(): void {
     this.infoPageService.getJson().subscribe((salesSnapshot) => {
-      this.sales = [];
       salesSnapshot.forEach((saleData: any) => {
         this.sales.push({
           id: saleData.payload.doc.id,
           data: saleData.payload.doc.data(),
           nameA: saleData.payload.doc.data().nameAgency
-        });
+        });       
       });
+      this.sales.forEach(element => {
+        if(!this.salesUnique.some((item:any)=> item.nameA === element.nameA)){
+          this.salesUnique.push({
+            finalPrice: 0,
+            finalPriceAmount: 0,
+            nameA: element.nameA
+          })
+        }
+      });
+      this.sales.forEach((sale:any)=>{ 
+        this.salesUnique.forEach((saleU:any) => {
+          if(sale.nameA===saleU.nameA){
+            let index=this.salesUnique.indexOf(this.salesUnique.find((d:any)=> d.nameA===saleU.nameA));
+            this.salesUnique[index].finalPrice=this.salesUnique[index].finalPrice + sale.data.finalPrice;
+            this.salesUnique[index].finalPriceAmount=this.salesUnique[index].finalPriceAmount + (sale.data.finalPrice*0.025);
+          }
+        });
+      })
+      this.ref.detectChanges();
     });
-
+    
+    
+    
   }
 
 
@@ -65,7 +85,6 @@ export class DataSalesComponent implements OnInit {
         }
       });
       localStorage.setItem('details', JSON.stringify(arrayData));
-      console.log(arrayData);
       this.router.navigate(['/empresas', name]);
     }
 
